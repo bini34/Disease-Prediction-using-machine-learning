@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Prediction System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">
+            Disease Prediction System
+        </h1>
+
+        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+            <form method="POST" class="space-y-6">
+                <div class="space-y-4">
+                    <label class="block text-gray-700 text-lg font-semibold mb-2">
+                        Select Symptoms
+                    </label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-96 overflow-y-auto p-4 border rounded-lg">
+                        {% for symptom in symptoms %}
+                        <div class="flex items-center">
+                            <input type="checkbox" name="symptoms" value="{{ symptom }}"
+                                   {% if symptom in selected_symptoms %}checked{% endif %}
+                                   class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <label class="ml-2 text-sm text-gray-700">
+                                {{ symptom.replace('_', ' ').title() }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
+                    Predict Disease
+                </button>
+            </form>
+
+            {% if prediction %}
+            <div class="mt-8 p-6 bg-gray-50 rounded-lg border">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Prediction Results</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-600">Predicted Disease:</span>
+                        <span class="text-lg font-semibold text-blue-600">{{ prediction }}</span>
+                    </div>
+                    {% if probability %}
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-600">Confidence:</span>
+                        <span class="text-lg font-semibold text-green-600">{{ probability }}%</span>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mt-4">
+                        <h3 class="text-gray-600 mb-2">Selected Symptoms:</h3>
+                        <div class="flex flex-wrap gap-2">
+                            {% for symptom in selected_symptoms %}
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                                {{ symptom.replace('_', ' ').title() }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
