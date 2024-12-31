@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 # Load and prepare the data
 def prepare_data():
-    data = pd.read_csv('Testing.csv')
+    data = pd.read_csv('data/Testing.csv')
     X = data.drop(['prognosis'], axis=1)
     y = data['prognosis']
     
